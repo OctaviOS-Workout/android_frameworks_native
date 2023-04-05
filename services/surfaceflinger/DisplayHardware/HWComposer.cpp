@@ -399,7 +399,7 @@ status_t HWComposer::setClientTarget(HalDisplayId displayId, uint32_t slot,
 status_t HWComposer::getDeviceCompositionChanges(
         HalDisplayId displayId, bool frameUsesClientComposition,
         std::chrono::steady_clock::time_point earliestPresentTime,
-        const std::shared_ptr<FenceTime>& previousPresentFence, nsecs_t expectedPresentTime,
+        [[maybe_unused]]const std::shared_ptr<FenceTime>& previousPresentFence, nsecs_t expectedPresentTime,
         std::optional<android::HWComposer::DeviceRequestedChanges>* outChanges) {
     ATRACE_CALL();
 
@@ -435,8 +435,7 @@ status_t HWComposer::getDeviceCompositionChanges(
 
         // composer doesn't support getting the expected present time. We can only
         // skip validate if we know that we are not going to present early.
-        return std::chrono::steady_clock::now() >= earliestPresentTime ||
-                previousPresentFence->getSignalTime() == Fence::SIGNAL_TIME_PENDING;
+        return std::chrono::steady_clock::now() >= earliestPresentTime;
     }();
 
     displayData.validateWasSkipped = false;

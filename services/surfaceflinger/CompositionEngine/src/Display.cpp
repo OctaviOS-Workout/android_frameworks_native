@@ -374,8 +374,7 @@ compositionengine::Output::FrameFences Display::presentAndGetFrameFences() {
 
     if (isPowerHintSessionEnabled()) {
         if (!getCompositionEngine().getHwComposer().getComposer()->isSupported(
-                    Hwc2::Composer::OptionalFeature::ExpectedPresentTime) &&
-            getState().previousPresentFence->getSignalTime() != Fence::SIGNAL_TIME_PENDING) {
+                    Hwc2::Composer::OptionalFeature::ExpectedPresentTime)) {
             mPowerAdvisor->setHwcPresentDelayedTime(mId, getState().earliestPresentTime);
         }
     }
